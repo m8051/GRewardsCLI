@@ -107,6 +107,13 @@ func readFile(path string) ([]string, error) {
 	return words, nil
 }
 
+func truncate(s string, max int) string {
+	if len(s) <= max {
+		return s
+	}
+	return s[:max-1] + "…"
+}
+
 func main() {
 
 	microsoft, errCMD := cmdHelper()
@@ -121,17 +128,28 @@ func main() {
 		log.Fatalf("read file: %v", errRF)
 	}
 
-	fmt.Println(Cyan + "\n\n[X] MS Rewards - Bing Engine Golang Configuration [X]\n" + Reset)
-	fmt.Println(Yellow+"[-] Search:", microsoft.num, Reset)
-	fmt.Println(Yellow+"[-] Source:", microsoft.file, Reset)
-	fmt.Println(Yellow+"[-] Computing MS Rewards Points:", 3*microsoft.num, Reset)
-	fmt.Print("\n")
-	fmt.Println(Green+"[-] Log search:\n", Reset)
+	fmt.Println(Cyan + "┌───────────────────────────────────────────────────────┐" + Reset)
+	fmt.Println(Cyan + "│ [X] MS Rewards - Bing Engine Golang Configuration [X] │" + Reset)
+	fmt.Println(Cyan + "└───────────────────────────────────────────────────────┘" + Reset)
+
+	fmt.Println(Yellow + "┌───────────────────────────────────────────────────────┐" + Reset)
+
+	fmt.Printf(Yellow+"│ [-] Search: %-41d │\n"+Reset, microsoft.num)
+	fmt.Printf(Yellow+"│ [-] Source: %-41s │\n"+Reset, microsoft.file)
+	fmt.Printf(Yellow+"│ [-] Computing MS Rewards Points: %-20d │\n"+Reset, 3*microsoft.num)
+
+	fmt.Println(Yellow + "└───────────────────────────────────────────────────────┘" + Reset)
+
+	fmt.Println(Green + "┌───────────────────────────────────────────────────────┐" + Reset)
+
+	fmt.Printf(Green+"│ [-] Bing Queries %-36s │\n"+Reset, "")
+
+	fmt.Println(Green + "└───────────────────────────────────────────────────────┘" + Reset)
 
 	// Create a copy of the words slice indices and shuffled indices
 	indices := rand.Perm(len(words))
 
-	sleepDuration := 10 * time.Second
+	sleepDuration := 15 * time.Second
 
 	if microsoft.debug {
 		sleepDuration = 1 * time.Second
@@ -142,14 +160,14 @@ func main() {
 		query := url.QueryEscape(words[idx])
 		bingURL := microsoft.url + query + "&PC=U316&FORM=CHROMN"
 
-		fmt.Printf(" + [%d][%s]: %s\n", i, words[idx], bingURL)
+		fmt.Printf("[%d][%s]\t %s\n"+Reset, i, words[idx], microsoft.url+query)
+
 		if !microsoft.debug {
-			// Open browser only if not in debug mode
-			err := browser.OpenURL(bingURL)
-			if err != nil {
+			if err := browser.OpenURL(bingURL); err != nil {
 				fmt.Printf("%s[!] Failed to open browser: %v%s\n", Red, err, Reset)
 			}
 		}
 		time.Sleep(sleepDuration)
 	}
+	fmt.Println(Green + "───────────────────────────────────────────────────────" + Reset)
 }
