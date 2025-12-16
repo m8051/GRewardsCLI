@@ -29,9 +29,9 @@ A Go-based CLI tool that automates Bing searches to help compute Microsoft Rewar
 ## 🚀 Installation
 
 ```bash
-git clone https://github.com/yourusername/ms-rewards-bing-go.git
-cd ms-rewards-bing-go
-go build -o msrewards
+git clone https://github.com/yourusername/GRewardsCLI.git
+cd GRewardsCLI
+go build -o grewardscli
 ```
 
 ---
@@ -39,7 +39,7 @@ go build -o msrewards
 ## ▶️ Usage
 
 ```bash
-./msrewards -num=10 -single=true -debug=false
+./grewardscli -num=10 -single=true -debug=false
 ```
 
 ### Available Flags
