@@ -1,4 +1,4 @@
-# MS Rewards – Bing Engine (Go)
+# GRewardsCLI - MS Rewards – Bing Engine (Go)
 
 A Go-based CLI tool that automates Bing searches to help compute Microsoft Rewards points. It provides a clean, colored terminal UI, supports debug mode, and can optionally open search URLs in your browser.
 
